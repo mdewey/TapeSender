@@ -10,25 +10,25 @@ var config = new ConfigurationBuilder()
 
 // var sourceFile = @"C:\Users\markt\Desktop\movie_project\test\README.md";
 var sourceFile = @"D:\Homemovies\README.md";
-var movies = new MovieDataFactory()
+var tapes = new TapeDataFactory()
     .CreateListFromReadme(sourceFile).ToList();
 
-foreach (var movie in movies)
+foreach (var tape in tapes)
 {
-  Console.WriteLine(movie);
-  new MovieDataFactory().GetThumbnailAndLength(movie);
-  await new MovieToAws(new MovieToAwsConfig
+  Console.WriteLine(tape);
+  new TapeDataFactory().GetThumbnailAndLength(tape);
+  await new TapeToAws(new TapeToAwsConfig
   {
-    AwsAccessKey = config["HomeMovies:aws:accessKeyId"],
-    AwsSecretKey = config["HomeMovies:aws:secret"],
-    AwsBucket = config["HomeMovies:aws:bucket"]
-  }).UploadToAws(movie);
-  Console.WriteLine(movie);
-  await new MovieApi().ProcessMovie(movie);
+    AwsAccessKey = config["DadsTapes:aws:accessKeyId"],
+    AwsSecretKey = config["DadsTapes:aws:secret"],
+    AwsBucket = config["DadsTapes:aws:bucket"]
+  }).UploadToAws(tape);
+  Console.WriteLine(tape);
+  await new TapeApi().Process(tape);
 }
 
 // get all movies and compare to list to see if any are missing
-var moviesFromApi = await new MovieApi().GetAllMovies();
+var tapesFromApi = await new TapeApi().GetAllTapes();
 // write counts to console
-Console.WriteLine($"Movies from api: {moviesFromApi.Count()}");
-Console.WriteLine($"Movies from readme: {movies.Count}");
+Console.WriteLine($"Tapes from api: {tapesFromApi.Count()}");
+Console.WriteLine($"Tapes from readme: {tapes.Count}");

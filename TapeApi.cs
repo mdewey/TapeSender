@@ -1,25 +1,25 @@
 using System.Text.Json;
 
-public class MovieApi
+public class TapeApi
 {
   // static readonly HttpClient client = new HttpClient();
 
-  public string MovieApiRoot { get; set; } = "https://dewey-movie-api.azurewebsites.net/api/v2/movies";
+  public string TapeApiRoot { get; set; } = "https://dewey-movie-api.azurewebsites.net/api/v2/movies";
 
 
-  public async Task<List<MovieUploadObject>> GetAllMovies()
+  public async Task<List<TapeUploadObject>> GetAllTapes()
   {
     var client = new HttpClient();
-    var response = await client.GetAsync($"{MovieApiRoot}");
+    var response = await client.GetAsync($"{TapeApiRoot}");
     var content = await response.Content.ReadAsStringAsync();
-    var movies = JsonSerializer.Deserialize<List<MovieUploadObject>>(content);
-    return movies;
+    var tapes = JsonSerializer.Deserialize<List<TapeUploadObject>>(content);
+    return tapes;
   }
 
-  public async Task UploadMetaDataToApi(MovieUploadObject movie)
+  public async Task UploadMetaDataToApi(TapeUploadObject tape)
   {
     Console.WriteLine("sending meta data to API");
-    Console.WriteLine(movie);
+    Console.WriteLine(tape);
     try
     {
       //TODO: remove before sending to production
@@ -29,8 +29,8 @@ public class MovieApi
         return true;
       };
       var client = new HttpClient(httpClientHandler);
-      var content = new StringContent(JsonSerializer.Serialize(movie), System.Text.Encoding.UTF8, "application/json");
-      var response = await client.PostAsync(this.MovieApiRoot, content);
+      var content = new StringContent(JsonSerializer.Serialize(tape), System.Text.Encoding.UTF8, "application/json");
+      var response = await client.PostAsync(this.TapeApiRoot, content);
       response.EnsureSuccessStatusCode();
       string responseBody = await response.Content.ReadAsStringAsync();
       Console.WriteLine(responseBody);
@@ -40,12 +40,12 @@ public class MovieApi
       Console.WriteLine("\nException Caught!");
       Console.WriteLine("Message :{0} ", e.Message);
       Console.WriteLine("InnerException :{0} ", e.InnerException);
-      Console.WriteLine(movie);
+      Console.WriteLine(tape);
     }
   }
 
-  public async Task ProcessMovie(MovieUploadObject movie)
+  public async Task Process(TapeUploadObject tape)
   {
-    await UploadMetaDataToApi(movie);
+    await UploadMetaDataToApi(tape);
   }
 }
