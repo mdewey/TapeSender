@@ -28,9 +28,17 @@ public class TapeToAws
 
   public async Task<TapeUploadObject> UploadToAws(TapeUploadObject tape)
   {
-    if (tape == null || tape.FilePath == null || tape.ImageUrl == null)
+    if (tape == null || tape.FilePath == null || tape.ImageFile == null)
     {
-      throw new ArgumentNullException(nameof(tape));
+      if (tape == null){
+        throw new ArgumentNullException(nameof(tape));
+      }
+      if (tape.FilePath == null){
+        throw new ArgumentNullException(nameof(tape.FilePath));
+      }
+      if (tape.ImageUrl == null){
+        throw new ArgumentNullException(nameof(tape.ImageFile));
+      }
     }
 
     Console.WriteLine($"staring to upload {tape.FilePath}");
@@ -44,29 +52,29 @@ public class TapeToAws
       Console.WriteLine("reading file");
       Console.WriteLine(tape);
       // upload screenshot
-      using (var ms = new MemoryStream())
-      {
+      // using (var ms = new MemoryStream())
+      // {
 
-        using (FileStream file = new FileStream(tape.ImageUrl, FileMode.Open, FileAccess.Read))
-        {
-          file.CopyTo(ms);
+      //   using (FileStream file = new FileStream(tape.ImageUrl, FileMode.Open, FileAccess.Read))
+      //   {
+      //     file.CopyTo(ms);
 
-          var uploadRequest = new TransferUtilityUploadRequest
-          {
-            InputStream = ms,
-            Key = tape.FileName?.Replace(".mp4", ".jpg"),
-            BucketName = bucketName // bucket name of S3
-          };
+      //     var uploadRequest = new TransferUtilityUploadRequest
+      //     {
+      //       InputStream = ms,
+      //       Key = tape.ImageFile,
+      //       BucketName = bucketName 
+      //     };
 
-          var fileTransferUtility = new TransferUtility(client);
-          Console.WriteLine("uploading sceenshot");
-          await fileTransferUtility.UploadAsync(uploadRequest);
-          tape.ImageUrl = $"https://{bucketName}.s3.amazonaws.com/{HttpUtility.UrlEncode(uploadRequest.Key)}";
-          tape.AwsImageKey = uploadRequest.Key;
-          Console.WriteLine($"uploaded sceenshot to {tape.ImageUrl}, aws key {tape.AwsImageKey}");
-        }
-      }
-      // upload video
+      //     var fileTransferUtility = new TransferUtility(client);
+      //     Console.WriteLine("uploading sceenshot");
+      //     await fileTransferUtility.UploadAsync(uploadRequest);
+      //     tape.ImageUrl = $"https://{bucketName}.s3.amazonaws.com/{HttpUtility.UrlEncode(uploadRequest.Key)}";
+      //     tape.AwsImageKey = uploadRequest.Key;
+      //     Console.WriteLine($"uploaded sceenshot to {tape.ImageUrl}, aws key {tape.AwsImageKey}");
+      //   }
+      // }
+      // // upload video
 
       using (FileStream file = new FileStream(tape.FilePath, FileMode.Open, FileAccess.Read))
       {
