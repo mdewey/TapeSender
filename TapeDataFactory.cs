@@ -23,9 +23,13 @@ public class TapeDataFactory
     return tape;
   }
 
-  public List<TapeUploadObject> CreateListFromReadme(string FilePath)
+  public List<TapeUploadObject> CreateList(string sourceDir)
   {
-    var list = new List<TapeUploadObject>();
+    var fileEntries = Directory.GetFiles(sourceDir, "*.mp3", SearchOption.TopDirectoryOnly);
+    var list = fileEntries.Select(file => new TapeUploadObject
+    {
+      FilePath = file
+    }).ToList();
     return list;
   }
 

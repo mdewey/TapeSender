@@ -4,7 +4,7 @@ public class TapeApi
 {
   // static readonly HttpClient client = new HttpClient();
 
-  public string TapeApiRoot { get; set; } = "https://dewey-movie-api.azurewebsites.net/api/v2/movies";
+  public string TapeApiRoot { get; set; } = "https://****.azurewebsites.net/api/v2/tapes";
 
 
   public async Task<List<TapeUploadObject>> GetAllTapes()
