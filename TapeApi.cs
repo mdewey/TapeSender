@@ -13,7 +13,7 @@ public class TapeApi
     var response = await client.GetAsync($"{TapeApiRoot}");
     var content = await response.Content.ReadAsStringAsync();
     var tapes = JsonSerializer.Deserialize<List<TapeUploadObject>>(content);
-    return tapes;
+    return tapes ?? new List<TapeUploadObject>();
   }
 
   public async Task UploadMetaDataToApi(TapeUploadObject tape)
