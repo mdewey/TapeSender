@@ -22,13 +22,13 @@ public class TapeUploadObject
 
   public string? FileName { get { return Path.GetFileName(FilePath); } }
   public string? ImageFile { get { return FilePath?.Replace("mp3", "jpg"); } }
+
+  public string? ImageFileName { get { return Path.GetFileName(ImageFile); } }
+
   public string? Url { get; set; }
   public string? ImageUrl { get; set; } = "https://some/url";
 
   public string? Length { get; set; } = "00:45:00";
-
-
-  public List<String>? Tags { get; set; }
 
   public override string ToString()
   {

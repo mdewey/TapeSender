@@ -25,7 +25,7 @@ foreach (var tape in tapes.Take(1))
 }
 
 // get all movies and compare to list to see if any are missing
-// var tapesFromApi = await new TapeApi().GetAllTapes();
+var tapesFromApi = await new TapeApi().GetAllTapes();
 // write counts to console
-// Console.WriteLine($"Tapes from api: {tapesFromApi.Count()}");
-Console.WriteLine($"Tapes from readme: {tapes.Count}");
+Console.WriteLine($"Tapes from api: {tapesFromApi.Count()}");
+Console.WriteLine($"Tapes from disk: {tapes.Count}");

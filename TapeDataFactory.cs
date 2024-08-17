@@ -24,7 +24,7 @@ public class TapeDataFactory
     var fileEntries = Directory.GetFiles(sourceDir, "*.mp3", SearchOption.TopDirectoryOnly);
     var list = fileEntries.Select(file => new TapeUploadObject
     {
-      FilePath = file
+      FilePath = file,
     }).ToList();
     return list;
   }
